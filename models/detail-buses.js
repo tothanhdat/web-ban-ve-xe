@@ -1,19 +1,23 @@
 const ObjectID = require('mongoose').Types.ObjectId;
-const BUSES_COLL = require('../database/buses-coll');
+const DETAIL_BUSES_COLL = require('../database/detail-buses-coll');
 
-module.exports = class Buses extends BUSES_COLL {
+module.exports = class DetailBuses extends DETAIL_BUSES_COLL {
 
-    static insert({ startPlace, endPlace }) {
+    static insert({ startPlace, endPlace, distance, dayTime, hourStart, price, hotline }) {
         return new Promise(async resolve => {
             try {
 
-                if (!startPlace || !endPlace)
+                let dataInsert = {
+                    startPlace, endPlace, distance, dayTime, hourStart, price, hotline
+                }
+
+                if (!startPlace, !endPlace, !distance, !dayTime, !hourStart, !price, !hotline)
                     return resolve({ error: true, message: 'params_invalid' });
 
-                let infoAfterInsert = new BUSES_COLL({ startPlace, endPlace });
+                let infoAfterInsert = new DETAIL_BUSES_COLL(dataInsert);
                 let saveDataInsert = await infoAfterInsert.save();
 
-                if (!saveDataInsert) return resolve({ error: true, message: 'cannot_insert_Buses' });
+                if (!saveDataInsert) return resolve({ error: true, message: 'cannot_insert_detail_buses' });
                 resolve({ error: false, data: infoAfterInsert });
             } catch (error) {
                 return resolve({ error: true, message: error.message });
@@ -24,11 +28,11 @@ module.exports = class Buses extends BUSES_COLL {
     static getList() {
         return new Promise(async resolve => {
             try {
-                let listBuses = await BUSES_COLL.find().limit(3);
+                let listDetailBuses = await DETAIL_BUSES_COLL.find();
 
-                if (!listBuses) return resolve({ error: true, message: 'cannot_get_list_data' });
+                if (!listDetailBuses) return resolve({ error: true, message: 'cannot_get_list_data' });
 
-                return resolve({ error: false, data: listBuses });
+                return resolve({ error: false, data: listDetailBuses });
 
             } catch (error) {
 
@@ -44,7 +48,7 @@ module.exports = class Buses extends BUSES_COLL {
                 if (!ObjectID.isValid(busesID))
                     return resolve({ error: true, message: 'params_invalid' });
 
-                let infoBuses = await BUSES_COLL.findById(busesID);
+                let infoBuses = await DETAIL_BUSES_COLL.findById(busesID);
 
                 if (!infoBuses) return resolve({ error: true, message: 'cannot_get_info_data' });
 
@@ -56,14 +60,14 @@ module.exports = class Buses extends BUSES_COLL {
         })
     }
 
-    static remove({ busesID }) {
+    static remove({ detailBusesID }) {
         return new Promise(async resolve => {
             try {
 
-                if (!ObjectID.isValid(busesID))
+                if (!ObjectID.isValid(detailBusesID))
                     return resolve({ error: true, message: 'params_invalid' });
 
-                let infoAfterRemove = await BUSES_COLL.findByIdAndDelete(busesID);
+                let infoAfterRemove = await DETAIL_BUSES_COLL.findByIdAndDelete(detailBusesID);
 
                 if (!infoAfterRemove)
                     return resolve({ error: true, message: 'cannot_remove_data' });
@@ -75,14 +79,17 @@ module.exports = class Buses extends BUSES_COLL {
         })
     }
 
-    static update({ busesID, startPlace, endPlace }) {
+    static update({ detailBusesID, startPlace, endPlace, distance, dayTime, hourStart, price, hotline }) {
         return new Promise(async resolve => {
             try {
 
-                if (!ObjectID.isValid(busesID))
+                if (!ObjectID.isValid(detailBusesID))
                     return resolve({ error: true, message: 'params_invalid' });
 
-                let infoAfterUpdate = await BUSES_COLL.findByIdAndUpdate(busesID, { startPlace, endPlace } , 
+                let dataUpdate = {
+                    startPlace, endPlace, distance, dayTime, hourStart, price, hotline
+                }
+                let infoAfterUpdate = await DETAIL_BUSES_COLL.findByIdAndUpdate(busesID, dataUpdate, 
                 { new: true });
                 
                 if (!infoAfterUpdate)

@@ -4,6 +4,10 @@ const Schema   = mongoose.Schema;
 
 const DetailBusesSchema = new Schema({
 
+    startPlace: String,
+
+    endPlace: String,
+
     //Quãng đường (km)
     distance: String,
 
@@ -17,13 +21,13 @@ const DetailBusesSchema = new Schema({
     price: String,
 
     //Chọn ghế
-    seat: String,
+    hotline: String,
 
-    //Tuyến
-    buses: {
+    //Danh sách booking
+    bookings: [{
         type: Schema.Types.ObjectId,
-        ref: "buses",
-    }
+        ref: "booking",
+    }]
     
 });
 

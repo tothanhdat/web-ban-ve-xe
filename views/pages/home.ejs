@@ -19,8 +19,13 @@
                             <label for>Điểm khởi hành</label>
                             <div class="controls">
                                 <i class="fa fa-bus text-primary"></i>
-                                <select  class="form-control selectpicker">
+                                <select  class="form-control selectpicker" id="startPlace">
                                     <option value>Chọn điểm khởi hành</option>
+                                <% if (PROVINCES && PROVINCES.length) { %>
+                                    <% PROVINCES.forEach((province) => { %>
+                                            <option value="<%=province.text%>"><%=province.text%></option>
+								    <% }) %>
+                                <% } %>
                                 </select>
                             </div>
                         </div>
@@ -31,8 +36,14 @@
                             <div class="controls">
                                 <i class="fa fa-bus text-primary"></i>
                                 
-                                <select  class="form-control selectpicker">
+                                <select class="form-control selectpicker" id="endPlace">
                                     <option value>Chọn điểm đến</option>
+
+                                    <% if (PROVINCES && PROVINCES.length) { %>
+                                        <% PROVINCES.forEach((province) => { %>
+                                                <option value="<%=province.text%>"><%=province.text%></option>
+                                        <% }) %>
+                                    <% } %>
                                 </select>
                             </div>
                         </div>
@@ -45,7 +56,7 @@
                             <div class="controls">
                                 <i class="fa fa-clock-o text-primary"></i>
                                 
-                                <input type="text" name="dDate" placeholder=" dd/mm/yyyy" class="form-control dDate date-readonly" value="24-04-2020" readonly>
+                                <input id ="dayTime" type="text" name="dDate" placeholder=" dd/mm/yyyy" class="form-control dDate date-readonly" value="24-04-2020" readonly>
                                 <small><em>Định dạng: dd-mm-yyyy</em></small>
                             </div>
                         </div>
@@ -56,7 +67,7 @@
                             <div class="controls">
                                 <i class="fa fa-ticket text-primary"></i>
                                 
-                                <input type="number" name="numOfTicket" placeholder="1" value="1" class="form-control" min="1" max="10">
+                                <input id="amountTicket" type="number" name="numOfTicket" placeholder="1" value="1" class="form-control" min="1" max="10">
                             </div>
                         </div>
                     </div>
@@ -111,38 +122,22 @@
 <section class="container" id="star-city">
     <h3 class="heading"><i class="fa fa-file-text" aria-hidden="true"></i> Khởi hành từ các thành phố lớn</h3>
     
-    
     <div class="row">
-        <div class="col-md-4 startpoint-block">
-            <img src="/futabus.vn/Content/img/private/webfutabusline-07.png">
-            <div class="startpoint-text">
-                <p>Khởi hành từ: <span>Hà Tiên - Rạch Giá</span><i> (Xem bản đồ)</i></p>
-                <p>Hotline: <span>02973 66 88 66 - 02973 691 691</span></p>
-                <p>Điểm đến: Sài Gòn, Cần Thơ,...</p>
-                <a href="vi-VN/ve-xe-phuong-trang-lich-trinh.html#Star-ha-tien">Chi tiết</a>
-                <div class="clearfix"></div>
+        <% if (listBuses && listBuses.length) { %>
+            <% listBuses.forEach(buses => { %>
+            <div class="col-md-4 startpoint-block">
+                <img src="/futabus.vn/Content/img/private/webfutabusline-09.png">
+                <div class="startpoint-text">
+                    <p>Khởi hành từ: <span><%=buses.startPlace%> </span><i> (Xem bản đồ)</i></p>
+                    <p>Hotline:  
+                                        <span><%=buses.hotline%></span></p>
+                    <p>Điểm đến: <span><%=buses.endPlace%></span></p>
+                    <a href="">Chi tiết</a>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4 startpoint-block">
-            <img src="/futabus.vn/Content/img/private/webfutabusline-08.png">
-            <div class="startpoint-text">
-                <p>Khởi hành từ: <span>Cà Mau - Năm Căn</span><i> (Xem bản đồ)</i></p>
-                <p>Hotline: <span>02903 651 651 - 02903 715 715</span></p>
-                <p>Điểm đến: Sài Gòn, Cần Thơ,...</p>
-                <a href="vi-VN/ve-xe-phuong-trang-lich-trinh.html#Star-ca-mau">Chi tiết</a>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <div class="col-md-4 startpoint-block">
-            <img src="/futabus.vn/Content/img/private/webfutabusline-09.png">
-            <div class="startpoint-text">
-                <p>Khởi hành từ: <span>Long Xuyên - Châu Đốc</span><i> (Xem bản đồ)</i></p>
-                <p>Hotline: <span>02963 98 9999 - 02963 565 888</span></p>
-                <p>Điểm đến: Sài Gòn, Cần Thơ,...</p>
-                <a href="vi-VN/ve-xe-phuong-trang-lich-trinh.html#Star-long-xuyen">Chi tiết</a>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+            <% }) %>
+        <% } %>
     </div>
 </section>
 <section class="container" id="more-info">
@@ -291,12 +286,47 @@
 
 </div>
 
-<%- include ('../partials/footer') %>   
+<%- include ('../partials/footer') %>
 <script>
     //$('#btnDatVe').
     $(document).on('click', '#btnDatVe', function(e) {
         e.preventDefault();
-        window.location.href = "/chon-ghe"
+        //let arrBusesNull = [];
+        let startPlace = $('#startPlace').val();
+        let endPlace = $('#endPlace').val();
+
+        if(!startPlace || !endPlace){
+            alert("Vui lòng chọn điểm đi, điểm đến")
+        }
+        //let dayTime = $('#dayTime').val();
+        $.ajax({
+            url: `/buses/list-buses`,
+            method: 'GET',
+            success: resp => {
+                let result = resp.data;
+
+                if(!resp.error){
+                    if(result && result.length){
+                        result.forEach(item => {
+                            if(item.startPlace.toString() == startPlace.toString() 
+                                && item.endPlace.toString() == endPlace.toString()){
+                                return window.location.href = `/chon-ghe?busesID=${item._id}`
+                                
+                            } else if(item.startPlace.toString() !== startPlace.toString()){
+                                return alert("Không tìm thấy chuyến xe");
+                            }
+                        });
+                    }
+                    
+                }else{
+
+                    alert("Đặt vé không thành công")
+                }
+            },
+            error: err => console.log({ err })
+        });
     })
+
+
     
 </script>

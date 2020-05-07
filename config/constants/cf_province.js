@@ -1,0 +1,21 @@
+exports.PROVINCES = [
+    { text: 'Hồ Chí Minh', value: 1 },
+    { text: 'Tây Ninh', value: 2 },
+    { text: 'Đồng Nai', value: 3 },
+    { text: 'Bình Phước', value: 4 },
+    { text: 'Bình Dương', value: 5 },
+    { text: 'An Giang', value: 6 },
+    { text: 'Bạc Liêu', value: 7 },
+    { text: 'Bến Tre', value: 8 },
+    { text: 'Cà Mau', value: 9 },
+    { text: 'Cần Thơ', value: 10 },
+    { text: 'Đồng Tháp', value: 11 },
+    { text: 'Hậu Giang', value: 12 },
+    { text: 'Kiên Giang', value: 13 },
+    { text: 'Long An', value: 14 },
+    { text: 'Sóc Trăng', value: 15 },
+    { text: 'Tiền Giang', value: 16 },
+    { text: 'Trà Vinh', value: 17 },
+    { text: 'Vĩnh Long', value: 18 },
+
+]

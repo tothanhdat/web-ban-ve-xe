@@ -18,7 +18,7 @@
     <div class="row">
     <div class="col-sm-4 col-xs-12 col-ms-12">
         <div class="panel">
-            <p class="text-center text-primary text-uppercase">TP.Hồ Chí Minh - Đà Nẵng ngày <span ng-bind-html="step1Info.departureDate|svcDate">06-05-2020</span></p>
+            <p class="text-center text-primary text-uppercase"><%=infoBuses.startPlace%> - <%=infoBuses.endPlace%> ngày <span ng-bind-html="step1Info.departureDate|svcDate">06-05-2020</span></p>
             <form id="form-steps" name="form" ng-submit="form.$valid ? next(form.$valid): showError(form.$error)" novalidate="" class="ng-invalid ng-invalid-min ng-valid-max ng-valid-required ng-dirty ng-valid-parse" style="">
                 <fieldset>
                     <div class="row hidden">
@@ -27,29 +27,19 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="">Chọn tuyến xe</label>
+                                    <label for="">Chi tiết tuyến xe</label>
                                     <!-- ngRepeat: schedule in schedules --><!-- ngIf: schedules.length > 0 --><div class="controls" ng-repeat="schedule in schedules" ng-animate="'animate'" ng-if="schedules.length > 0" style="">
                                         <i class="fa fa-bus text-primary"></i>
                                         <p class="form-control valid" ng-class="form.$dirty ? (form.selectRoute.$valid ? 'valid': 'invalid'): ''" style="">
-                                            <span class="f-left">BX Mien Dong ⇒ Da Nang</span>
+                                            <span class="f-left"><%=infoBuses.startPlace%> ⇒ <%=infoBuses.endPlace%></span>
                                             <span class="f-right">
-                                                <span ng-bind-html="info.price|svcMoney">375.000<sup>₫</sup></span>&nbsp;
-                                                <input type="radio" ng-model="info.selectRoute" name="selectRoute" ng-value="schedule" required="" class="ng-valid ng-valid-required ng-dirty ng-touched ng-valid-parse" value="[object Object]" style="">
+                                                <span ng-bind-html="info.price|svcMoney"><%=infoBuses.price%><sup>₫</sup></span>&nbsp;
                                             </span>
                                         </p>
-                                        <!-- ngIf: info.price == 0 && getPriceComplete === true -->
-                                    </div><!-- end ngIf: schedules.length > 0 --><!-- end ngRepeat: schedule in schedules --><!-- ngIf: schedules.length > 0 --><div class="controls" ng-repeat="schedule in schedules" ng-animate="'animate'" ng-if="schedules.length > 0">
-                                        <i class="fa fa-bus text-primary"></i>
-                                        <p class="form-control valid" ng-class="form.$dirty ? (form.selectRoute.$valid ? 'valid': 'invalid'): ''" style="">
-                                            <span class="f-left">BX An Suong ⇒ Da Nang</span>
-                                            <span class="f-right">
-                                                <span ng-bind-html="info.price|svcMoney">375.000<sup>₫</sup></span>&nbsp;
-                                                <input type="radio" ng-model="info.selectRoute" name="selectRoute" ng-value="schedule" required="" class="ng-valid ng-valid-required ng-dirty ng-touched" value="[object Object]" style="">
-                                            </span>
-                                        </p>
-                                        <!-- ngIf: info.price == 0 && getPriceComplete === true -->
-                                    </div><!-- end ngIf: schedules.length > 0 --><!-- end ngRepeat: schedule in schedules -->
-                                    <!-- ngIf: schedules.length == 0 && getScheduleComplete === true -->
+                                        
+                                    </div>
+                                        <div class="controls" ng-repeat="schedule in schedules" ng-animate="'animate'" ng-if="schedules.length > 0">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +50,9 @@
                                     <label for="">Chọn giờ khởi hành</label>
                                     <!-- ngIf: timeTables.length > 0 --><div class="controls" ng-if="timeTables.length > 0" style="">
                                         <i class="fa fa-clock-o text-primary"></i>
-                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-valid-required valid" ng-class="form.$dirty ? (form.departureTime.$valid ? 'valid': 'invalid'): ''" name="departureTime" ng-model="info.departureTime" ng-options="option.DisplayText for option in timeTables track by option.Id" required="" style=""><option value="3306777" label="10:30 (Giường)" selected="selected">10:30 (Giường)</option><option value="3306808" label="13:00 (Giường)">13:00 (Giường)</option><option value="3306839" label="14:30 (Giường)" selected="selected">14:30 (Giường)</option><option value="3306870" label="16:30 (Giường)">16:30 (Giường)</option><option value="3306901" label="18:30 (Giường)">18:30 (Giường)</option><option value="3322121" label="19:45 (Giường)">19:45 (Giường)</option></select>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-valid-required valid">
+                                            <option value="<%=infoBuses.hourStart%>" label="<%=infoBuses.hourStart%> (Giường)" selected="selected"><%=infoBuses.hourStart%> (Giường)</option>
+                                        </select>
                                        
                                     </div><!-- end ngIf: timeTables.length > 0 -->
                                     <!-- ngIf: timeTables.length == 0 && getTimeTableComplete === true -->
@@ -74,7 +66,9 @@
                                     <label for="">Chọn điểm lên xe</label>
                                     <!-- ngIf: pickUpPoints.length > 0 --><div class="controls" ng-if="pickUpPoints.length > 0" style="">
                                         <i class="fa fa-map-marker text-primary"></i>
-                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-valid-required valid" ng-class="form.$dirty ? (form.pickUpPoint.$valid ? 'valid': 'invalid'): ''" name="pickUpPoint" ng-model="info.pickUpPoint" ng-options="option.Address for option in pickUpPoints track by option.Id" required="" style=""><option value="1747386" label="VP Thủ Đức: 798 XLHN , P.Hiệp Phú , Q.9, TP HCM" selected="selected">VP Thủ Đức: 798 XLHN , P.Hiệp Phú , Q.9, TP HCM</option><option value="1747420" label="VP Suối Linh: D9 Vòng Xoay Tam Hiệp, TP. Biên Hòa, Đồng Nai">VP Suối Linh: D9 Vòng Xoay Tam Hiệp, TP. Biên Hòa, Đồng Nai</option><option value="1747685" label="VP Qui Nhơn, 233 Tây Sơn, Quang Trung, TP.Quy Nhơn">VP Qui Nhơn, 233 Tây Sơn, Quang Trung, TP.Quy Nhơn</option><option value="1747444" label="VP BX Miền Đông: 292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP HCM (TERMINAL BUS STATION)" selected="selected">VP BX Miền Đông: 292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP HCM (TERMINAL BUS STATION)</option></select>
+                                        <div class="controls no-icon">
+                                            <input type="text" class="form-control ng-untouched ng-valid ng-dirty ng-valid-parse ng-valid-maxlength valid" placeholder="BX Miền Đông">
+                                        </div>
                                     </div><!-- end ngIf: pickUpPoints.length > 0 -->
                                     <!-- ngIf: pickUpPoints.length == 0 && getPickUpPointComplete === true -->
                                 </div>
@@ -100,7 +94,7 @@
                                 <i class="fa fa-bus text-primary"></i> <strong>Xuất phát</strong>
                             </p>
                             <span ng-bind-html="step1Info.departureDate|svcDate">06-05-2020</span><br>
-                            <span>14:30</span>
+                            <span><%=infoBuses.hourStart%></span>
                         </td>
                         <td class="time-line">
                             <div class="first"></div>
@@ -108,7 +102,7 @@
                         <td>
                             <p>&nbsp;</p>
                             <p>
-                                TP.Hồ Chí Minh<br>BX Mien Dong
+                                <%=infoBuses.startPlace%><br><!--BX Mien Dong-->
                             </p>
                         </td>
                     </tr>
@@ -140,7 +134,7 @@
                         <td>
                             <p>&nbsp;</p>
                             <p>
-                                Đà Nẵng<br>Da Nang
+                                <%=infoBuses.endPlace%><br><!--Da Nang-->
                             </p>
                         </td>
                     </tr>
