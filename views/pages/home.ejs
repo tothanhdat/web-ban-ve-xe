@@ -295,6 +295,8 @@
         let startPlace = $('#startPlace').val();
         let endPlace = $('#endPlace').val();
 
+        let arrNull = []
+
         if(!startPlace || !endPlace){
             alert("Vui lòng chọn điểm đi, điểm đến")
         }
@@ -310,12 +312,16 @@
                         result.forEach(item => {
                             if(item.startPlace.toString() == startPlace.toString() 
                                 && item.endPlace.toString() == endPlace.toString()){
-                                return window.location.href = `/chon-ghe?busesID=${item._id}`
+                                return window.location.href = `/buses/chon-ghe?busesID=${item._id}`
                                 
                             } else if(item.startPlace.toString() !== startPlace.toString()){
-                                return alert("Không tìm thấy chuyến xe");
+                                return arrNull.push(item.startPlace)
                             }
                         });
+
+                        if(arrNull.length){
+                            return alert("Không tìm thấy chuyến xe")
+                        }
                     }
                     
                 }else{

@@ -20,12 +20,6 @@ app.get('/', (req, res) => {
     renderToView(req, res, 'pages/home', { });
 })
 
-app.get('/chon-ghe', async (req, res) => {
-    let { busesID } = req.query;
-    let infoBuses = await BUSES_MODEL.getInfo({ busesID });
-    console.log({ infoBuses })
-    renderToView(req, res, 'pages/choose-seat', { infoBuses: infoBuses.data });
-})
 
 app.get('/thong-tin-khach-hang', (req, res) => {
     res.render('pages/info-customer')

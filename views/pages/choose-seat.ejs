@@ -180,8 +180,6 @@
                     
                 </tbody></table>
             </div>
-            <a href="/chon-tuyen"><span>Chọn lại</span></a>
-
             <div class="">
                 <div ng-switch-when="Giường">
                     <div class="row">
@@ -316,6 +314,8 @@
 <%- include ('../partials/footer') %>  
 
 <script>
+
+    let arrNullSeat = [];
     for(let i = 1; i < 22; i++){
 
         $(document).on('click', `#seat${i}`, function(e) {
@@ -323,10 +323,12 @@
 
         $(`#seat${i}`).addClass('active-seat');
         $('.seat-choose').find('span').empty();
-        $('.seat-choose').find('tbody').append(`<p>Ghế ${i}, </p>`)
+        $('.seat-choose').find('tbody').append(`Ghế A0${i}, `)
+        arrNullSeat.push(`Ghế A0${i}`)
         //$('.seat-choose').append(`<span >Chưa chọn ghế</span>`)
         });
     }
+    console.log(arrNullSeat)
 
     $(document).on('click', `.btnCreateInfoCustomer`, function(e) {
         e.preventDefault();
