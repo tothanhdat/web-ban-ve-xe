@@ -20,13 +20,19 @@ app.get('/', (req, res) => {
     renderToView(req, res, 'pages/home', { });
 })
 
-
 app.get('/thong-tin-khach-hang', (req, res) => {
     res.render('pages/info-customer')
 })
 
 app.get('/hoan-thanh-dat-ve', (req, res) => {
     res.render('pages/finish')
+})
+
+app.get('/dang-ky', (req, res) => {
+    res.render('pages/register')
+})
+app.get('/dang-nhap', (req, res) => {
+    res.render('pages/login')
 })
 
 app.use('/buses', BUSES_ROUTER);

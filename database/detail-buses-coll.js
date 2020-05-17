@@ -27,7 +27,9 @@ const DetailBusesSchema = new Schema({
     bookings: [{
         type: Schema.Types.ObjectId,
         ref: "booking",
-    }]
+    }],
+
+    seat: [],
     
 });
 
