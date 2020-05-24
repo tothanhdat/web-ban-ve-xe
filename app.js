@@ -35,6 +35,12 @@ app.get('/dang-nhap', (req, res) => {
     res.render('pages/login')
 })
 
+app.get('/lich-trinh', async (req, res) => {
+    let listLichTrinh = await BUSES_MODEL.getList();
+    console.log({ listLichTrinh })
+    renderToView(req, res, 'pages/lich-trinh', { listLichTrinh: listLichTrinh.data });
+})
+
 app.use('/buses', BUSES_ROUTER);
 
 const uri = 'mongodb://localhost/webbanve';

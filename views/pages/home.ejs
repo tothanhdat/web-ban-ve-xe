@@ -295,8 +295,6 @@
         let startPlace = $('#startPlace').val();
         let endPlace = $('#endPlace').val();
 
-        let arrNull = []
-
         if(!startPlace || !endPlace){
             alert("Vui lòng chọn điểm đi, điểm đến")
         }
@@ -306,6 +304,7 @@
             method: 'GET',
             success: resp => {
                 let result = resp.data;
+                let arrNull = []
 
                 if(!resp.error){
                     if(result && result.length){
@@ -315,7 +314,10 @@
                                 return window.location.href = `/buses/chon-ghe?busesID=${item._id}`
                                 
                             } else if(item.startPlace.toString() !== startPlace.toString()){
-                                return arrNull.push(item.startPlace)
+                                arrNull.push(item)
+                                if(arrNull.length){
+                                    return alert("Không tìm thấy chuyến xe")
+                                }
                             }
                         });
 
