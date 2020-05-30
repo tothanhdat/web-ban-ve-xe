@@ -84,22 +84,19 @@
                            </p>
                            <div class="form-group">
                               <label for="">Họ tên <span class="text-primary">*</span></label>
-                              <input class="form-control" id="FullName" name="FullName" placeholder="Điền họ tên" type="text" value="" />
+                              <input class="form-control" id="fullname" name="FullName" placeholder="Điền họ tên" type="text" value="" />
                            </div>
                            <div class="form-group">
                               <label for="">Email <span class="text-primary">*</span></label>
-                              <input class="form-control" id="Email" name="Email" placeholder="Điền địa chỉ email" type="email" value="" />
+                              <input class="form-control" id="email" name="Email" placeholder="Điền địa chỉ email" type="email" value="" />
                            </div>
                            <div class="form-group">
                               <div class="row">
                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ms-12">
                                     <label for="">Mật khẩu <span class="text-primary">*</span></label>
-                                    <input class="form-control" id="Password" name="Password" placeholder="Điền mật khẩu" type="password" />
+                                    <input class="form-control" id="password" name="Password" placeholder="Điền mật khẩu" type="password" />
                                  </div>
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ms-12">
-                                    <label for="">Nhắc lại mật khẩu <span class="text-primary">*</span></label>
-                                    <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" type="password" />
-                                 </div>
+                                 
                               </div>
                            </div>
                            <h3 class="text-uppercase">Thông tin khác</h3>
@@ -107,40 +104,36 @@
                               <div class="row">
                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
                                     <label for="">Số di động <span class="text-primary">*</span></label>
-                                    <input class="form-control" id="Phone" name="Phone" placeholder="Điền số di động" type="text" value="" />
+                                    <input class="form-control" id="phone" name="Phone" placeholder="Điền số di động" type="text" value="" />
                                  </div>
                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
                                     <label for="">Số CMNN <span class="text-primary">*</span></label>
-                                    <input class="form-control" id="SecurityNumber" name="SecurityNumber" placeholder="Điền số chứng minh thư" type="text" value="" />
+                                    <input class="form-control" id="CMND" name="SecurityNumber" placeholder="Điền số chứng minh thư" type="text" value="" />
                                  </div>
                               </div>
                            </div>
                            <div class="form-group">
                               <div class="row">
                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
-                                    <label for="">Tỉnh/TP<span class="text-primary">*</span></label>
-                                    <select class="form-control" data-val="true" data-val-number="The field ProvinceId must be a number." data-val-required="The ProvinceId field is required." datavalue="0" id="ProvinceId" name="ProvinceId">
-                                       <option value="">Chọn tỉnh/tp</option>
-                                    </select>
+                                    <label for="">Tỉnh <span class="text-primary">*</span></label>
+                                    <input class="form-control" id="province" name="Phone" placeholder="Tỉnh" type="text" value="" />
                                  </div>
                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
-                                    <label for="">Quận/Huyện<span class="text-primary">*</span></label>
-                                    <select class="form-control" data-val="true" data-val-number="The field CityId must be a number." data-val-required="The CityId field is required." datavalue="0" id="CityId" name="CityId">
-                                       <option value="">Chọn quận/huyện</option>
-                                    </select>
+                                    <label for="">Quận Huyện <span class="text-primary">*</span></label>
+                                    <input class="form-control" id="district" name="Phone" placeholder="Quận Huyện" type="text" value="" />
+                                 </div>
+                                 
+                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
+                                    <label for="">Ngày sinh <span class="text-primary">*</span></label>
+                                    <input class="form-control" id="birthDay" name="Phone" placeholder="Ngày sinh" type="text" value="" />
                                  </div>
                               </div>
                            </div>
                            <div class="form-group">
-                              <div class="row">
-                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-ms-12">
-                                    <label for="">Địa chỉ</label>
-                                    <input class="form-control" id="Address" name="Address" placeholder="Điền địa chỉ liên hệ" type="text" value="" />
-                                 </div>
-                              </div>
+                              
                            </div>
                            <div class="form-group clearfix">
-                              <button class="btn btn-primary pull-right">HOÀN TẤT</button>
+                              <button class="btn btn-primary pull-right btnDangKy">Đăng ký</button>
                            </div>
                            <p class="clearfix">
                               <small class="pull-right"><span class="text-primary">*</span> Mục bắt buộc </small>
@@ -215,3 +208,51 @@
       <!-- GA -->
    </body>
 </html>
+
+<script>
+
+    $(document).on('click', '.btnDangKy', function(e) {
+        e.preventDefault();
+
+        let fullname = $('#fullname').val().trim();
+        let email = $('#email').val().trim();
+        let password = $('#password').val().trim();
+        let phone = $('#phone').val().trim();
+        let birthDay = $('#birthDay').val().trim();
+        let province = $('#province').val().trim();
+        let district = $('#district').val().trim();
+        let CMND = $('#CMND').val().trim();
+
+        console.log({ fullname, email, password, phone, birthDay, province, district, CMND })
+
+        if (email.length < 1 || password.length < 1 || fullname.length < 1) {
+
+			alert('Các trường không được để trống', 'Thông báo')
+			
+        } else {
+            $.ajax({
+                url: `/dang-ky`,
+                method: 'POST',
+                data: {
+                    fullname, email, password, phone, birthDay, province, district, CMND
+                },
+                success: resp => {
+
+                    console.log({ resp })
+
+                    if (!resp.error) {
+						      alert("Đăng ký thành công")
+                        return window.location.href = `/dang-nhap`;
+
+                    } else {
+
+                        alert('Đăng ký thất bại');
+                    }
+                },
+                error: err => console.log({
+                    err
+                })
+            });
+        }
+    })
+</script>
