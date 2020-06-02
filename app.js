@@ -4,6 +4,9 @@ const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
 const { renderToView }  = require('./utils/childRouting');
 const expressSession    = require('express-session');
+const moment            = require('moment');
+const toastr            = require('toastr')
+
 
 const checkActive       = require('./utils/checkActive');
 
@@ -33,16 +36,25 @@ app.get('/', (req, res) => {
     renderToView(req, res, 'pages/home', { });
 })
 
-app.get('/thong-tin-khach-hang', (req, res) => {
-    res.render('pages/info-customer')
+app.get('/thong-tin-khach-hang', checkActive, (req, res) => {
+    renderToView(req, res, 'pages/info-customer', { });
 })
 
 app.get('/hoan-thanh-dat-ve', (req, res) => {
-    res.render('pages/finish')
+    renderToView(req, res, 'pages/finish', { });
 })
 
 app.get('/dang-ky', (req, res) => {
-    res.render('pages/register')
+    renderToView(req, res, 'pages/register', { });
+})
+
+app.get('/dang-nhap', (req, res) => {
+    renderToView(req, res, 'pages/login', { });
+})
+
+app.get('/dang-xuat', async (req, res) => {
+    req.session.token = undefined;
+    return res.redirect('/dang-nhap');
 })
 
 app.post('/dang-ky', async (req, res) => {
@@ -72,13 +84,8 @@ app.post('/dang-nhap', async (req, res) => {
     res.redirect('/')
 })
 
-app.get('/dang-nhap', (req, res) => {
-    res.render('pages/login')
-})
-
 app.get('/lich-trinh', async (req, res) => {
     let listLichTrinh = await BUSES_MODEL.getList();
-    console.log({ listLichTrinh })
     renderToView(req, res, 'pages/lich-trinh', { listLichTrinh: listLichTrinh.data });
 })
 

@@ -4,13 +4,14 @@ const DETAIL_BUSES_COLL = require('../database/detail-buses-coll');
 
 module.exports = class Seat extends SEAT_COLL {
 
-    static insert({ chair, busesID }) {
+    static insert({ chair, busesID, price }) {
         return new Promise(async resolve => {
             try {
 
                 let dataInsert = {
                     chair,
-                    detailBuses: busesID
+                    detailBuses: busesID,
+                    price
                 }
 
                 console.log({ dataInsert })

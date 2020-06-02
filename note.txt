@@ -1,0 +1,38 @@
+"dependencies": {
+    "bcrypt": "^4.0.1", Mã hóa password
+    "body-parser": "^1.19.0", Lấy giá trị từ input
+    "cookie-parser": "^1.4.5", Lưu cookie
+    "ejs": "^3.1.2", Template Nodejs
+    "express": "^4.17.1", 
+    "express-session": "^1.17.1", session
+    "jsonwebtoken": "^8.5.1", token
+    "moment": "^2.26.0", Hàm định dạng thời gian
+    "mongoose": "^5.9.12", Kết nối với database (mongodb)
+    "toastr": "^2.1.4" Thông báo
+  }
+
+  0. Luồng hoạt động của project:
+    B1. Tạo database trước
+    B2. Viết models (bao gồm những hàm để xử lý.. ví dụ: Thêm, xóa, sửa, danh sách, thêm hình ảnh)
+    B3. Cấu hình route (Viết các API cho trang web) bao gồm các phương thức get, post (Xem mục 3, 4). 
+    B4. Xử lý giao diện (Toàn bộ các giao diện được nằm trong thư mục views) và đang sử dụng template engine ejs
+
+  1. Để cài package dùng lệnh: npm install <name_package> 
+  ----> Ex: npm install express
+
+  2. Để chạy file dùng lệnh: node app.js
+
+  3. Phương thức get trả về data cho trình duyệt
+
+  4. Phương thức post gửi data lên server
+
+  5. Thư mục ultils chứa các hàm config riêng như phân quyền, check có đăng nhập hay chưa? token...
+
+  6. Các thư mục và file quan trọng hay sử dụng trong project.. database, models, routes, views, app(file)
+
+  7. Cấu hình header, footer trong thư mục views/partials
+
+  8. Cấu hình các giao diện trong thư mục views/pages
+
+  9. Thư mục public chứa các file js, css, img, font của trang web.. Toàn bộ các đường dẫn phải nằm trong thư mục này
+

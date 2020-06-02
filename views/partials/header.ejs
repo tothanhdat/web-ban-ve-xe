@@ -37,6 +37,8 @@
     
     <link href="/futabus.vn/Content/css/animate.css" rel="stylesheet">
 
+    <link href="/futabus.vn/toastr/toastr.min.css" rel="stylesheet">
+
     <link href="/futabus.vn/Content/css/custom.min.css" rel="stylesheet" type="text/css" media="all">
 	<!--Google Analytic-->
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -237,7 +239,7 @@
     <nav>
         <div class="container">
             <div id="logo" class="pull-left">
-                <a href class>
+                <a href="/" class>
                     <img id="logo-main" src="/futabus.vn/Content/img/logo-futa-edit.png" alt>
                 </a>
             </div>
@@ -256,9 +258,13 @@
                 <li><a href="vi-VN/ve-xe-phuong-trang-tin-tuc.html">Tin tức</a></li>
 				<li><a target="_blank" href="https://vieclam.futabus.vn/">Tuyển dụng</a></li>
                 <li><a href="vi-VN/ve-xe-phuong-trang-lien-he.html">Liên hệ</a></li>
-
-    <li><a href="">Đăng nhập</a></li>
-	<li><a target="_blank" href="">Hóa đơn</a></li>
+                <% if (infoUser) { %>
+                <li><a href="">Xin chào <%=infoUser.infoUSer.fullname%></a></li>
+                <li><a href="/dang-xuat">Đăng xuất</a></li>
+                <% }else { %>
+                <li><a href="/dang-nhap">Đăng nhập</a></li>
+                <li><a href="/dang-ky">Đăng ký</a></li>
+                <% } %>
 
             </ul>
         </div>

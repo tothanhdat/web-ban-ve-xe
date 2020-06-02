@@ -39,9 +39,9 @@ route.get('/info-exam', async (req, res) => {
 
 route.post('/chon-ghe', async (req, res) => {
     let { busesID } = req.query;
-    let { chair } = req.body;
+    let { chair, price } = req.body;
     console.log({ busesID, chair})
-    let resultInsert = await SEAT_MODEL.insert({ chair, busesID });
+    let resultInsert = await SEAT_MODEL.insert({ chair, busesID, price });
     console.log({ resultInsert })
     res.json(resultInsert)
 })

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
-const SeatSchema = new Schema({
+const PaymentSchema = new Schema({
 
     chair: String,
 
@@ -14,5 +14,5 @@ const SeatSchema = new Schema({
     }
 });
 
-const BUSES_MODEL = mongoose.model('seat', SeatSchema);
-module.exports  = BUSES_MODEL;
+const PAYMENT_SCHEMA = mongoose.model('seat', PaymentSchema);
+module.exports  = PAYMENT_SCHEMA;

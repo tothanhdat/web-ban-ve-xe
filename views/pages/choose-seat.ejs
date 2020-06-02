@@ -1,3 +1,4 @@
+<% moment.locale('vi')%>
 <%- include ('../partials/header') %>  
 <style>
     .active-seat {
@@ -18,7 +19,7 @@
     <div class="row">
     <div class="col-sm-4 col-xs-12 col-ms-12">
         <div class="panel">
-            <p class="text-center text-primary text-uppercase"><%=infoBuses.startPlace%> - <%=infoBuses.endPlace%> ngày <span ng-bind-html="step1Info.departureDate|svcDate">06-05-2020</span></p>
+            <p class="text-center text-primary text-uppercase"><%=infoBuses.startPlace%> - <%=infoBuses.endPlace%> ngày <span ng-bind-html="step1Info.departureDate|svcDate"><%=moment(infoBuses.dayTime).format('L'); %></span></p>
             <form id="form-steps" name="form" ng-submit="form.$valid ? next(form.$valid): showError(form.$error)" novalidate="" class="ng-invalid ng-invalid-min ng-valid-max ng-valid-required ng-dirty ng-valid-parse" style="">
                 <fieldset>
                     <div class="row hidden">
@@ -32,8 +33,8 @@
                                         <i class="fa fa-bus text-primary"></i>
                                         <p class="form-control valid" ng-class="form.$dirty ? (form.selectRoute.$valid ? 'valid': 'invalid'): ''" style="">
                                             <span class="f-left"><%=infoBuses.startPlace%> ⇒ <%=infoBuses.endPlace%></span>
-                                            <span class="f-right">
-                                                <span ng-bind-html="info.price|svcMoney"><%=infoBuses.price%><sup>₫</sup></span>&nbsp;
+                                            <span class="f-right priceBuses">
+                                                <span><%=infoBuses.price%><sup>₫</sup></span>&nbsp;
                                             </span>
                                         </p>
                                         
@@ -67,7 +68,7 @@
                                     <!-- ngIf: pickUpPoints.length > 0 --><div class="controls" ng-if="pickUpPoints.length > 0" style="">
                                         <i class="fa fa-map-marker text-primary"></i>
                                         <div class="controls no-icon">
-                                            <input type="text" class="form-control ng-untouched ng-valid ng-dirty ng-valid-parse ng-valid-maxlength valid" placeholder="BX Miền Đông">
+                                            <input type="text" class="form-control ng-untouched ng-valid ng-dirty ng-valid-parse ng-valid-maxlength valid" value="BX <%=infoBuses.startPlace%>">
                                         </div>
                                     </div><!-- end ngIf: pickUpPoints.length > 0 -->
                                     <!-- ngIf: pickUpPoints.length == 0 && getPickUpPointComplete === true -->
@@ -93,7 +94,7 @@
                             <p>
                                 <i class="fa fa-bus text-primary"></i> <strong>Xuất phát</strong>
                             </p>
-                            <span ng-bind-html="step1Info.departureDate|svcDate">06-05-2020</span><br>
+                            <span ng-bind-html="step1Info.departureDate|svcDate"><%=moment(infoBuses.dayTime).format('L'); %></span><br>
                             <span><%=infoBuses.hourStart%></span>
                         </td>
                         <td class="time-line">
@@ -108,10 +109,6 @@
                     </tr>
                     <tr>
                         <td>
-                            <p>
-                                <i class="fa fa-clock-o"></i>
-                                một ngày
-                            </p>
                         </td>
                         <td class="time-line">
                             <div class="middle">
@@ -122,11 +119,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <p>
-                                <i class="fa fa-bus text-primary"></i> <strong>Đến lúc</strong>
-                            </p>
-                            <span ng-bind-html="dropOffDateTime|svcDate">07-05-2020</span><br>
-                            <span ng-bind-html="dropOffDateTime|svcTime">13:30</span>
+                            
                         </td>
                         <td class="time-line ">
                             <div class="end"></div>
@@ -174,7 +167,7 @@
                         </td>
                         <td class="text-right">
                             <p><strong class="text-uppercase">Tổng tiền:</strong></p>
-                            (<span class="text-primary" style="font-weight: 600;" ng-bind-html="info.total|svcMoney">0<sup>₫</sup></span>)
+                            (<span class="text-primary" id="priceSeat" style="font-weight: 600;">0<sup>₫</sup></span>)
                         </td>
                     </tr>
                     
@@ -221,7 +214,7 @@
                                             <div class="seat">A08</div>
                                         </td><td>
                                         </td>
-                                        <td>
+                                        <td id="seat9">
                                             <div class="seat">A09</div>
                                         </td>
                                     </tr>
@@ -321,6 +314,9 @@
         $(document).on('click', `#seat${i}`, function(e) {
         e.preventDefault();
 
+        let priceBuses = $('.priceBuses').text().trim().slice(0, 3);
+
+        console.log({ priceBuses })
         $(`#seat${i}`).addClass('active-seat');
         $('.seat-choose').find('span').empty();
         let handelString;
@@ -331,8 +327,14 @@
         }
         $('.abc').find('p').append(`${handelString}`)
         arrNullSeat.push(`${handelString}`)
-        //$('.seat-choose').append(`<span >Chưa chọn ghế</span>`)
+
+        let priceAttr = parseInt(priceBuses) * arrNullSeat.length + '.000đ';
+
+        $('#priceSeat').text(priceAttr)
+
         });
+
+
     }
     console.log(arrNullSeat)
 
@@ -340,24 +342,30 @@
         e.preventDefault();
         let chair = arrNullSeat.toString();
         let busesID = $(this).attr('_busesID');
+        let price = $('#priceSeat').text();
         
-        console.log({ chair, busesID })
+        console.log({ chair, busesID, price })
+
+        if(!chair.length){
+            return toastr['warning']('Bạn chưa chọn ghế', 'Thông báo');
+        }
+
         $.ajax({
 				url: `/buses/chon-ghe?busesID=${busesID}`,
 				method: 'POST',
-                data: { chair, busesID }, 
+                data: { chair, busesID, price }, 
 				success: resp => {
 
 					console.log({ resp })
 
 					if(!resp.error){
 
-						console.log("Thanh cong")
                         window.location.href = `/thong-tin-khach-hang?seatID=${resp.data._id}`;
 
 					}else{
 
-						console.log("That bai")
+						return toastr['fail']('Thất bại', 'Thông báo');
+
 					}
 				},
 				error: err => console.log({ err })

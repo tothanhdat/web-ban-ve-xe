@@ -15,6 +15,7 @@
       <link rel="stylesheet" type="text/css" href="/futabus.vn/Content/js/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
       <link href="/futabus.vn/Content/css/animate.css" rel="stylesheet">
       <link href="/futabus.vn/Content/css/custom.min.css" rel="stylesheet" type="text/css" media="all">
+      <link href="/futabus.vn/toastr/toastr.min.css" rel="stylesheet">
    </head>
    <body>
       <div id="page">
@@ -71,10 +72,10 @@
                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-ms-12 col-lg-offset-2 col-md-offset-2">
                            <h3 class="text-uppercase text-center">Bạn là khách hàng mới?</h3>
                            <p class="text-center">
-                              <a href="/User/Register" class="btn btn-success">Đăng ký</a>
+                              <a href="/dang-ky" class="btn btn-success">Đăng ký</a>
                            </p>
                            <p class="text-muted text-center">
-                              Chỉ với 1 tài khoản FUTABUS ID, tham gia được tất cả các chương trình của FUTA Bus Lines
+                              Tạo tài khoản để thực hiện thanh toán
                            </p>
                         </div>
                      </div>
@@ -139,6 +140,7 @@
       <script src="/futabus.vn/Content/js/modernizr.js"></script>
       <script src="/futabus.vn/Content/js/jquery.barrating.es5.js"></script>
       <script type="text/javascript" src="/futabus.vn/bower_components/moment/min/moment-with-locales.min.js"></script>
+      <script type="text/javascript" src="/futabus.vn/toastr/toastr.min.js"></script>
    </body>
 </html>
 
@@ -162,12 +164,14 @@
 
                     if (!resp.error) {
 
-                        alert('Đăng nhập thành công');
-                        location.href = "/"
+                        toastr['success'](`Đăng nhập thành công`, 'Thông báo');
+                        setTimeout(function(){ 
+                           return history.back();
+                        }, 500);
 
                     } else {
 
-                        return alert('Email hoặc mật khẩu không chính xác');
+                        return toastr['fail'](`Email hoặc mật khẩu không chính xác`, 'Thông báo');
                     }
                 },
                 error: err => console.log({

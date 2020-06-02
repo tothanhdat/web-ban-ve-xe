@@ -56,7 +56,7 @@
                             <div class="controls">
                                 <i class="fa fa-clock-o text-primary"></i>
                                 
-                                <input id ="dayTime" type="text" name="dDate" placeholder=" dd/mm/yyyy" class="form-control dDate date-readonly" value="24-04-2020" readonly>
+                                <input id = "dayTime" type="text" name="dDate" placeholder=" dd/mm/yyyy" class="form-control dDate date-readonly" value="24-04-2020" readonly>
                                 <small><em>Định dạng: dd-mm-yyyy</em></small>
                             </div>
                         </div>
@@ -288,15 +288,28 @@
 
 <%- include ('../partials/footer') %>
 <script>
-    //$('#btnDatVe').
+
+    $(document).ready(function() {
+        let nowDate = moment(Date.now()).format("YYYY-MM-DD"); 
+        $('#dayTime').val(nowDate);
+    });
+
+    //$('#btnDatVe')
+
+    //Tìm kiếm chuyến đi
+
     $(document).on('click', '#btnDatVe', function(e) {
         e.preventDefault();
         //let arrBusesNull = [];
         let startPlace = $('#startPlace').val();
         let endPlace = $('#endPlace').val();
 
-        if(!startPlace || !endPlace){
-            alert("Vui lòng chọn điểm đi, điểm đến")
+        let dayTime = $('#dayTime').val();
+
+        let arrNull = []
+
+        if(!startPlace && !endPlace){
+            toastr['warning']('Không tìm thấy chuyến đi', 'Thông báo');
         }
         //let dayTime = $('#dayTime').val();
         $.ajax({
@@ -304,31 +317,29 @@
             method: 'GET',
             success: resp => {
                 let result = resp.data;
-                let arrNull = []
 
                 if(!resp.error){
                     if(result && result.length){
                         result.forEach(item => {
                             if(item.startPlace.toString() == startPlace.toString() 
-                                && item.endPlace.toString() == endPlace.toString()){
-                                return window.location.href = `/buses/chon-ghe?busesID=${item._id}`
-                                
-                            } else if(item.startPlace.toString() !== startPlace.toString()){
+                                && item.endPlace.toString() == endPlace.toString() 
+                                && moment(item.dayTime).format("MM-DD-YYYY").toString() == dayTime.toString()){
                                 arrNull.push(item)
-                                if(arrNull.length){
-                                    
-                                }
+                                toastr['success'](`Đã tìm thấy ${arrNull.length} chuyến đi`, 'Thông báo');
+                                setTimeout(function(){ 
+                                    window.location.href = `/buses/chon-ghe?busesID=${item._id}`
+                                }, 500);
                             }
                         });
 
-                        if(arrNull.length){
-                            return alert("Không tìm thấy chuyến xe")
+                        if(!arrNull.length){
+                            return toastr['warning']('Không tìm thấy chuyến đi', 'Thông báo');
                         }
                     }
                     
+                    
                 }else{
-
-                    alert("Đặt vé không thành công")
+                    return toastr['warning']('Đặt vé không thành công', 'Thông báo');
                 }
             },
             error: err => console.log({ err })

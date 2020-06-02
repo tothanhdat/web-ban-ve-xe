@@ -15,6 +15,7 @@
       <link rel="stylesheet" type="text/css" href="/futabus.vn/Content/js/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
       <link href="/futabus.vn/Content/css/animate.css" rel="stylesheet">
       <link href="/futabus.vn/Content/css/custom.min.css" rel="stylesheet" type="text/css" media="all">
+      <link href="/futabus.vn/toastr/toastr.min.css" rel="stylesheet">
    </head>
    <body>
       <div id="page">
@@ -139,7 +140,7 @@
                               <small class="pull-right"><span class="text-primary">*</span> Mục bắt buộc </small>
                            </p>
                            <p class="text-center">
-                              Nếu bạn đã có FUTABUS ID. CLick <a href="/User/Login">đây</a> để đăng nhập
+                              Nếu bạn đã có tài khoản. CLick <a href="/dang-nhap">đây</a> để đăng nhập
                            </p>
                         </form>
                      </div>
@@ -205,6 +206,7 @@
       <script src="/futabus.vn/Content/js/modernizr.js"></script>
       <script src="/futabus.vn/Content/js/jquery.barrating.es5.js"></script>
       <script type="text/javascript" src="/futabus.vn/bower_components/moment/min/moment-with-locales.min.js"></script>
+      <script type="text/javascript" src="/futabus.vn/toastr/toastr.min.js"></script>
       <!-- GA -->
    </body>
 </html>
@@ -241,12 +243,13 @@
                     console.log({ resp })
 
                     if (!resp.error) {
-						      alert("Đăng ký thành công")
-                        return window.location.href = `/dang-nhap`;
+						      toastr['success'](`Đăng ký thành công`, 'Thông báo');
+                        setTimeout(function(){ 
+                           return window.location.href = `/dang-nhap`;
+                        }, 500);
 
                     } else {
-
-                        alert('Đăng ký thất bại');
+                        toastr['fail'](`Đăng ký thất bại`, 'Thông báo');
                     }
                 },
                 error: err => console.log({
